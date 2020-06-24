@@ -5,7 +5,7 @@ import java.util
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.filter.{CompareFilter, SingleColumnValueFilter}
 import org.apache.hadoop.hbase.util.Bytes
-import org.apache.hadoop.hbase.{Cell, CellUtil, HBaseConfiguration, TableName}
+import org.apache.hadoop.hbase.{Cell, CellUtil, CompareOperator, HBaseConfiguration, TableName}
 
 /**
  * Author atguigu
@@ -33,7 +33,7 @@ object HbaseDML {
         val table: Table = conn.getTable(TableName.valueOf(tableName))
         val scan = new Scan()
         val filter =
-            new SingleColumnValueFilter(Bytes.toBytes("info"), Bytes.toBytes("name"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes("ww"))
+            new SingleColumnValueFilter(Bytes.toBytes("info"), Bytes.toBytes("name"), CompareOperator.EQUAL, Bytes.toBytes("abc"))
         scan.setFilter(filter)
         val results: ResultScanner = table.getScanner(scan)
         
