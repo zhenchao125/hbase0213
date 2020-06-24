@@ -2,7 +2,7 @@ package com.atguigu.hbase
 
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.util.Bytes
-import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
+import org.apache.hadoop.hbase.{HBaseConfiguration, NamespaceDescriptor, TableName}
 
 /**
  * Author atguigu
@@ -15,10 +15,42 @@ object HbaseDDL {
     val conn: Connection = ConnectionFactory.createConnection(conf)
     
     def main(args: Array[String]): Unit = {
-//        println(tableExists("user"))
+        //        println(tableExists("user"))
         
-        createTable("hbase1", "cf1", "cf2")
+        //        createTable("hbase1", "cf1", "cf2")
+        //        deleteTable("hbase1")
+        createNS("abc")
         closeConnection()
+    }
+    
+    def createNS(name: String) = {
+        val admin: Admin = conn.getAdmin
+        if (!nsExists(name)) {
+            val nd: NamespaceDescriptor.Builder = NamespaceDescriptor.create(name)
+            admin.createNamespace(nd.build())
+        } else {
+            println(s"你要创建的命名空间: ${name}已经存在")
+        }
+        admin.close()
+    }
+    
+    def nsExists(name: String): Boolean = {
+        val admin: Admin = conn.getAdmin
+        val nss: Array[NamespaceDescriptor] = admin.listNamespaceDescriptors()
+        val r = nss.map(_.getName).contains(name)
+        admin.close()
+        r
+    }
+    
+    
+    def deleteTable(name: String) = {
+        val admin: Admin = conn.getAdmin
+        if (tableExists(name)) {
+            admin.disableTable(TableName.valueOf(name))
+            admin.deleteTable(TableName.valueOf(name))
+        }
+        
+        admin.close()
     }
     
     /**
@@ -30,7 +62,7 @@ object HbaseDDL {
         val admin: Admin = conn.getAdmin
         val tableName = TableName.valueOf(name)
         
-        if(tableExists(name)) return false
+        if (tableExists(name)) return false
         
         
         val td: TableDescriptorBuilder = TableDescriptorBuilder.newBuilder(tableName)
