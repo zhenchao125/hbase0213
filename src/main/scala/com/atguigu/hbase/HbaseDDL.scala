@@ -19,8 +19,10 @@ object HbaseDDL {
         
         //        createTable("hbase1", "cf1", "cf2")
         //        deleteTable("hbase1")
-        createNS("abc")
-        closeConnection()
+//        createNS("abc")
+//        closeConnection()
+        
+        createTable("test1", "info")
     }
     
     def createNS(name: String) = {
@@ -70,11 +72,14 @@ object HbaseDDL {
         cfs.foreach(cf => {
             val cfd = ColumnFamilyDescriptorBuilder
                 .newBuilder(Bytes.toBytes(cf))
+                
                 .build()
             td.setColumnFamily(cfd)
         })
         
-        admin.createTable(td.build())
+//        admin.createTable(td.build())
+        val splites = Array(Bytes.toBytes("aaa"),Bytes.toBytes("bbb"),Bytes.toBytes("ccc"))
+        admin.createTable(td.build(), splites)
         admin.close()
         true
     }

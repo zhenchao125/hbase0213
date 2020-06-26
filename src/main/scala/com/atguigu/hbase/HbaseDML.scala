@@ -34,7 +34,9 @@ object HbaseDML {
         val scan = new Scan()
         val filter =
             new SingleColumnValueFilter(Bytes.toBytes("info"), Bytes.toBytes("name"), CompareOperator.EQUAL, Bytes.toBytes("abc"))
+        filter.setFilterIfMissing(true)
         scan.setFilter(filter)
+        
         val results: ResultScanner = table.getScanner(scan)
         
         import scala.collection.JavaConversions._
