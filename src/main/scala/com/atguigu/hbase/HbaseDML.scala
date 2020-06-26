@@ -9,8 +9,7 @@ import org.apache.hadoop.hbase.{Cell, CellUtil, CompareOperator, HBaseConfigurat
 
 /**
  * Author atguigu
- * Date 2020/6/24 9:22
- */
+ * Date 2020/6/24 9:22 */
 object HbaseDML {
     // 1. 先获取到hbase的连接
     val conf = HBaseConfiguration.create()
@@ -123,3 +122,4 @@ object HbaseDML {
     
     def closeConnection() = conn.close()
 }
+

@@ -19,8 +19,8 @@ object HbaseDDL {
         
         //        createTable("hbase1", "cf1", "cf2")
         //        deleteTable("hbase1")
-//        createNS("abc")
-//        closeConnection()
+        //        createNS("abc")
+        //        closeConnection()
         
         createTable("test1", "info")
     }
@@ -55,11 +55,11 @@ object HbaseDDL {
         admin.close()
     }
     
-    /**
+    /*
      * 创建指定的表
      *
      * @param name
-     */
+    */
     def createTable(name: String, cfs: String*): Boolean = {
         val admin: Admin = conn.getAdmin
         val tableName = TableName.valueOf(name)
@@ -77,19 +77,20 @@ object HbaseDDL {
             td.setColumnFamily(cfd)
         })
         
-//        admin.createTable(td.build())
-        val splites = Array(Bytes.toBytes("aaa"),Bytes.toBytes("bbb"),Bytes.toBytes("ccc"))
+        //        admin.createTable(td.build())
+        val splites = Array(Bytes.toBytes("aaa"), Bytes.toBytes("bbb"), Bytes.toBytes("ccc"))
         admin.createTable(td.build(), splites)
         admin.close()
         true
     }
     
-    /**
+    /*
+    *
      * 判断表是否存在
      *
      * @param name
      * @return
-     */
+    */
     def tableExists(name: String): Boolean = {
         
         // 2. 获取管理对象 Admin
@@ -105,3 +106,4 @@ object HbaseDDL {
     
     def closeConnection() = conn.close()
 }
+

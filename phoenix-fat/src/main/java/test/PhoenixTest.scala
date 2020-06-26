@@ -1,9 +1,7 @@
-
-package com.atguigu.phoenix
+package test
 
 import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet}
 
-import org.apache.phoenix.queryserver.client.ThinClientUtil
 
 /**
  * Author atguigu
@@ -13,7 +11,7 @@ object PhoenixTest {
     def main(args: Array[String]): Unit = {
         // 本质: 就是通过jdbc访问phoenix
         // 1. 建立连接
-        val url = ThinClientUtil.getConnectionUrl("hadoop102", 8765)
+        val url = "jdbc:phoenix:hadoop102,hadoop103,hadoop104:2181"
         println(url)
         val conn: Connection = DriverManager.getConnection(url)
         // 2. PrepareState
@@ -31,4 +29,3 @@ object PhoenixTest {
         
     }
 }
-
